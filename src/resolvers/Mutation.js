@@ -1,4 +1,4 @@
-const { postChannels } = require('./channels')
+const { CREATED } = require('./channels')
 
 const createPost = (_, { input }, { db, pubsub }, info) => {
   const post = {
@@ -6,7 +6,12 @@ const createPost = (_, { input }, { db, pubsub }, info) => {
     id: db.POSTS.length + 1
   }
   db.POSTS = [...db.POSTS, post]
-  pubsub.publish(postChannels.POST_CREATED, { post })
+  pubsub.publish(`POST_${CREATED}`, {
+    post: {
+      mutation_in: CREATED,
+      node: post
+    }
+  })
   return post
 }
 

@@ -7,7 +7,7 @@ type Mutation {
 }
 
 type Subscription {
-  post(where: PostSubscriptionWhereInput): Post!
+  post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
 }
 
 enum MutationType {
@@ -21,6 +21,11 @@ type Post {
   id: Int!
   title: String!
   author: String!
+}
+
+type PostSubscriptionPayload {
+  mutation_in: MutationType!
+  node: Post
 }
 
 input PostInput {

@@ -1,7 +1,9 @@
-const postChannels = {
-  POST_CREATED: 'POST_CREATED'
-}
+const CREATED = 'CREATED'
+const UPDATED = 'UPDATED'
+const DELETED = 'DELETED'
 
 module.exports = {
-  postChannels
+  CREATED,
+  UPDATED,
+  DELETED
 }
