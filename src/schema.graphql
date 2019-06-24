@@ -7,7 +7,7 @@ type Mutation {
 }
 
 type Subscription {
-  Post: Post!
+  post: Post!
 }
 
 type Post {

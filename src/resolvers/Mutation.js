@@ -6,7 +6,7 @@ const createPost = (_, { input }, { db, pubsub }, info) => {
     id: db.POSTS.length + 1
   }
   db.POSTS = [...db.POSTS, post]
-  pubsub.publish(postChannels.POST_CREATED, { Post: post })
+  pubsub.publish(postChannels.POST_CREATED, { post })
   return post
 }
 

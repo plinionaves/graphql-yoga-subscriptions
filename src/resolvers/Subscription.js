@@ -1,10 +1,10 @@
 const { postChannels } = require('./channels')
 
-const Post = {
+const post = {
   subscribe: (_, args, { pubsub }) =>
     pubsub.asyncIterator(Object.keys(postChannels))
 }
 
 module.exports = {
-  Post
+  post
 }
