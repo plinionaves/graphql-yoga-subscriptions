@@ -1,4 +1,4 @@
-const { CREATED, UPDATED } = require('./channels')
+const { CREATED, UPDATED, DELETED } = require('./channels')
 
 const createPost = (_, { input }, { db, pubsub }, info) => {
   const post = {
@@ -33,7 +33,23 @@ const updatePost = (_, { id, input }, { db, pubsub }, info) => {
   return post
 }
 
+const deletePost = (_, { id, input }, { db, pubsub }, info) => {
+  const post = db.POSTS.find(p => p.id === id)
+  if (!post) {
+    throw new Error(`Post with id '${id}' not found!`)
+  }
+  db.POSTS = db.POSTS.filter(p => p.id !== post.id)
+  pubsub.publish(`POST_${DELETED}`, {
+    post: {
+      mutation_in: DELETED,
+      node: post
+    }
+  })
+  return post
+}
+
 module.exports = {
   createPost,
-  updatePost
+  updatePost,
+  deletePost
 }

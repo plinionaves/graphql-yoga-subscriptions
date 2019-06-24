@@ -5,6 +5,7 @@ type Query {
 type Mutation {
   createPost(input: PostInput): Post!
   updatePost(id: ID!, input: PostInput): Post!
+  deletePost(id: ID!): Post!
 }
 
 type Subscription {
