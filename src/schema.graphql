@@ -7,9 +7,16 @@ type Mutation {
 }
 
 type Subscription {
-  post: Post!
+  post(where: PostSubscriptionWhereInput): Post!
 }
 
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+# Post
 type Post {
   id: Int!
   title: String!
@@ -19,4 +26,8 @@ type Post {
 input PostInput {
   title: String!
   author: String!
+}
+
+input PostSubscriptionWhereInput {
+  mutation_in: [MutationType!]
 }
