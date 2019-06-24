@@ -1,4 +1,4 @@
-const { CREATED } = require('./channels')
+const { CREATED, UPDATED } = require('./channels')
 
 const createPost = (_, { input }, { db, pubsub }, info) => {
   const post = {
@@ -15,6 +15,25 @@ const createPost = (_, { input }, { db, pubsub }, info) => {
   return post
 }
 
+const updatePost = (_, { id, input }, { db, pubsub }, info) => {
+  const index = db.POSTS.findIndex(p => p.id === id)
+  if (index < 0) {
+    throw new Error(`Post with id '${id}' not found!`)
+  }
+  const post = { ...input, id }
+  const newPosts = [...db.POSTS]
+  newPosts[index] = post
+  db.POSTS = newPosts
+  pubsub.publish(`POST_${UPDATED}`, {
+    post: {
+      mutation_in: UPDATED,
+      node: post
+    }
+  })
+  return post
+}
+
 module.exports = {
-  createPost
+  createPost,
+  updatePost
 }
